@@ -6,7 +6,7 @@ const userSchema = Schema(
     name: String,
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    phoneNumber: String,
+    phoneNumber: Number,
     address: String,
     role: {
       type: String,
@@ -18,7 +18,7 @@ const userSchema = Schema(
       ref: "ProductsOrder",
       default: [],
     },
-    ttl: Date,
+    ttl: {type:Date, default: new Date()},
     isVerified: Boolean,
   },
   { timestamp: true }
