@@ -1,6 +1,6 @@
 import { ProductsCategory } from "../../models/product-category-schema.js";
 
-export const getUser = async (req, res) => {
+export const getProductCategory = async (req, res) => {
   try{
     const FoodCategory = await ProductsCategory.find()
     res.json({ message: "get Food Category", FoodCategory: FoodCategory });

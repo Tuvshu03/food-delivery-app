@@ -1,5 +1,5 @@
 import { ProductsCategory } from "../../models/product-category-schema.js"
-export const deleteUser = async (req, res) => {
+export const deleteProductCategory = async (req, res) => {
   try {
     const { categoryName } = req.body;
     const deleteCategory = await ProductsCategory.deleteOne({ categoryName:categoryName });

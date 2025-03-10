@@ -1,11 +1,11 @@
 import { ProductsCategory } from "../../models/product-category-schema.js"
 
-export const updateCategory = async (req, res) => {
+export const updateProductCategory = async (req, res) => {
   try {
     const { categoryName } = req.body;
     const updateCategory = await ProductsCategory.findOneAndUpdate(
       { categoryName: categoryName },
-      { categoryName: "jasondbourne" }
+      { categoryName: "Breakfast" }
     );
     res.json({
       message: "success",
