@@ -2,10 +2,11 @@ import { Users } from "../../models/user-schema.js";
 
 export const updateUser = async (req, res) => {
   try {
-    const { email } = req.body;
+    const { _id } = req.user;
+    const {email} = req.body
     const updateUser = await Users.findOneAndUpdate(
-      { email: email },
-      { name: "jason bourne" }
+      { _id  },
+      { email: email }
     );
     res.json({
       message: "success",
