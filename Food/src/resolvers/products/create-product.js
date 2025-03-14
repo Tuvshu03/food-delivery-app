@@ -15,3 +15,11 @@ export const createProduct = async (req, res) => {
     Products: newProduct,
   });
 };
+
+// {
+//   "foodName":"test01@gmail.com",
+//   "price":"test01",
+//   "image":"",
+//   "ingredients":"",
+//   "categoryName":""
+// }

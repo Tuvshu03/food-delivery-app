@@ -14,7 +14,17 @@ export default function Home() {
     try {
       const categories = await axiosInstance.get("/category");
       setCategory(categories.data.FoodCategory);
-      console.log(categories);
+    } catch (err) {
+      console.log("error");
+    }
+  };  const [food, setFood] = useState<category[]>([]);
+
+  const getChoosenFoods = async () => {
+    try {
+      const foods = await axiosInstance.get("/product");
+      setFood(foods.data);
+      console.log(foods, "foods");
+      
     } catch (err) {
       console.log("error");
     }
@@ -22,6 +32,7 @@ export default function Home() {
   console.log(category);
   useEffect(() => {
     getCategory();
+    getChoosenFoods();
   }, []);
   return (
     <div className="bg-neutral-700 flex flex-col">
