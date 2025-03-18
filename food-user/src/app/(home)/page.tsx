@@ -56,7 +56,6 @@ export default function Home() {
     <div className="bg-neutral-700 flex flex-col">
       <Header/>
       <img src="title-image.png" className="w-full h-[600px] overflow-hidden object-cover" />
-
       {categories.map((category) => (
         <Category {...category} foods={foods} />
       ))}

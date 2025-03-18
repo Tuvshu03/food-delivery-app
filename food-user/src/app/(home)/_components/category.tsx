@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { CategoryType, FoodType } from "../page";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Plus } from "lucide-react";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Minus, Plus } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 type CategoryProps = {
   foods: FoodType[];
 } & CategoryType;
@@ -17,6 +15,17 @@ export const Category = (props: CategoryProps) => {
     (food) => food.categoryName.filter((cur) => cur._id === _id).length !== 0
   );
 
+    const [quantity, setQuantity] = useState(1);
+    const { push } = useRouter();
+  
+    const minusQuantity = () => {
+      if (quantity !== 1) {
+        setQuantity((prev) => prev - 1);
+      }
+    }
+    const plusQuantity = () => {
+        setQuantity((prev) => prev + 1);
+    }
   return (
     <div className="my-3 max-w-7xl mx-auto">
       <div className="flex flex-col items-start">
@@ -47,7 +56,7 @@ export const Category = (props: CategoryProps) => {
                           </Button>
                         </DialogTrigger>
                         <DialogContent className="sm:max-w-[826px]">
-                          <div className="flex w-full">
+                          <div className="flex w-full gap-6">
                             <div className="w-full">
                               <img
                                 src={`${foods.image}`}
@@ -55,19 +64,35 @@ export const Category = (props: CategoryProps) => {
                                 className="overflow-hidden object-cover rounded-md w-full h-[367px]"
                               />
                             </div>
-                           <div className="">
-                             <div className="flex flex-col text-2xl">
-                              <div className="text-red-500">
-                                {foods.foodName}
-                              </div>
-                              <div className="">{foods.ingredients}</div>
-                              {/* <div className="text-[#09090B]">
+                            <div className="flex flex-col justify-between">
+                              <div className="flex flex-col text-2xl">
+                                <div className="text-red-500">
+                                  {foods.foodName}
+                                </div>
+                                <div className="">{foods.ingredients}</div>
+                                {/* <div className="text-[#09090B]">
                                 {foods.price}$
                               </div> */}
+                              </div>
+                              <div className="">
+                                <div className="flex mb-6">
+                                  <div className="w-full">
+                                    <div className="">Total price</div>
+                                    <div className="text-[#09090B] text-2xl text-bold">{quantity*Number(foods.price)}$</div>
+                                  </div>
+                                  <div className="flex items-center justify-between gap-2">
+                                    <Button onClick={plusQuantity} className="rounded-full bg-white text-black border w-10 h-10">
+                                      <Plus />
+                                    </Button>
+                                    <div className="">{quantity}</div>
+                                    <Button onClick={minusQuantity} disabled={quantity===1} className="rounded-full bg-white text-black border w-10 h-10">
+                                      <Minus />
+                                    </Button>
+                                  </div>
+                                </div>
+                                <Button className="w-full" type="submit">Add to card</Button>
+                              </div>
                             </div>
-                           
-                            <Button type="submit">Save changes</Button>
-                           </div>
                           </div>
                         </DialogContent>
                       </Dialog>
