@@ -3,11 +3,10 @@ import { Users } from "../../models/user-schema.js";
 export const updateUser = async (req, res) => {
   try {
     const { _id } = req.user;
-    const {email} = req.body
-    const updateUser = await Users.findOneAndUpdate(
-      { _id  },
-      { email: email }
-    );
+    const { address } = req.body;
+    console.log(address);
+
+    const updateUser = await Users.findByIdAndUpdate(_id, { address });
     res.json({
       message: "success",
       user: updateUser,

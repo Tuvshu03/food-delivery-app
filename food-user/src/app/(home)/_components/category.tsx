@@ -1,10 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { CategoryType, FoodType } from "../page";
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogFooter,
+} from "@/components/ui/alert-dialog";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
 type CategoryProps = {
   foods: FoodType[];
 } & CategoryType;
@@ -15,17 +21,19 @@ export const Category = (props: CategoryProps) => {
     (food) => food.categoryName.filter((cur) => cur._id === _id).length !== 0
   );
 
-    const [quantity, setQuantity] = useState(1);
-    const { push } = useRouter();
-  
-    const minusQuantity = () => {
-      if (quantity !== 1) {
-        setQuantity((prev) => prev - 1);
-      }
+  const [quantity, setQuantity] = useState(1);
+  const { push } = useRouter();
+
+  const minusQuantity = () => {
+    if (quantity !== 1) {
+      setQuantity((prev) => prev - 1);
     }
-    const plusQuantity = () => {
-        setQuantity((prev) => prev + 1);
-    }
+  };
+  const plusQuantity = () => {
+    setQuantity((prev) => prev + 1);
+  };
+
+  const notify = () => toast("Food is being added to the cart");
   return (
     <div className="my-3 max-w-7xl mx-auto">
       <div className="flex flex-col items-start">
@@ -46,16 +54,16 @@ export const Category = (props: CategoryProps) => {
                         alt="property image"
                         className="overflow-hidden object-cover rounded-md w-96 h-52"
                       />
-                      <Dialog>
-                        <DialogTrigger asChild>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
                           <Button
                             variant="outline"
                             className="absolute bottom-3 right-3 bg-white rounded-full text-black"
                           >
                             <Plus />
                           </Button>
-                        </DialogTrigger>
-                        <DialogContent className="sm:max-w-[826px]">
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="sm:max-w-[826px]">
                           <div className="flex w-full gap-6">
                             <div className="w-full">
                               <img
@@ -78,24 +86,42 @@ export const Category = (props: CategoryProps) => {
                                 <div className="flex mb-6">
                                   <div className="w-full">
                                     <div className="">Total price</div>
-                                    <div className="text-[#09090B] text-2xl text-bold">{quantity*Number(foods.price)}$</div>
+                                    <div className="text-[#09090B] text-2xl text-bold">
+                                      {quantity * Number(foods.price)}$
+                                    </div>
                                   </div>
                                   <div className="flex items-center justify-between gap-2">
-                                    <Button onClick={plusQuantity} className="rounded-full bg-white text-black border w-10 h-10">
+                                    <Button
+                                      onClick={plusQuantity}
+                                      className="rounded-full bg-white text-black border w-10 h-10"
+                                    >
                                       <Plus />
                                     </Button>
                                     <div className="">{quantity}</div>
-                                    <Button onClick={minusQuantity} disabled={quantity===1} className="rounded-full bg-white text-black border w-10 h-10">
+                                    <Button
+                                      onClick={minusQuantity}
+                                      disabled={quantity === 1}
+                                      className="rounded-full bg-white text-black border w-10 h-10"
+                                    >
                                       <Minus />
                                     </Button>
                                   </div>
                                 </div>
-                                <Button className="w-full" type="submit">Add to card</Button>
+                                <AlertDialogFooter>
+                                  <Button
+                                    className="w-full"
+                                    type="submit"
+                                    onClick={notify}
+                                  >
+                                    Add to card
+                                  </Button>
+                                  <ToastContainer /
+                                </AlertDialogFooter>
                               </div>
                             </div>
                           </div>
-                        </DialogContent>
-                      </Dialog>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </div>
                     <div className="flex justify-between text-2xl">
                       <div className="text-red-500">{foods.foodName}</div>

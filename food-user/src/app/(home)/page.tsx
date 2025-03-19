@@ -27,13 +27,11 @@ export type FoodType = {
 export default function Home() {
   const [categories, setCategory] = useState<CategoryType[]>([]);
   const [foods, setFoods] = useState<FoodType[]>([]);
-  const [filteredFoods, setFilteredFoods] = useState([]);
 
   const getCategory = async () => {
     try {
       const categories = await axiosInstance.get("/category");
       setCategory(categories.data.FoodCategory);
-      console.log(categories.data.FoodCategory, "categories");
     } catch (err) {
       console.log("error");
     }
@@ -51,7 +49,7 @@ export default function Home() {
     getCategory();
     getFoods();
   }, []);
-
+  
   return (
     <div className="bg-neutral-700 flex flex-col">
       <Header/>

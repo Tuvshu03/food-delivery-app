@@ -22,16 +22,18 @@ export function DrawerDemo() {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button variant="outline">
-          <ShoppingCart className="text-black bg-white rounded-full w-8 h-8 py-2" />
+        <Button variant="outline"
+        className="rounded-full">
+          <ShoppingCart className="" />
         </Button>
       </DrawerTrigger>
-      <DrawerContent>
-        <div className="w-96">
+      <DrawerContent className="w-full bg-secondary">
           <DrawerHeader>
             <DrawerTitle className="flex "><ShoppingCart className="" />Order Detail</DrawerTitle>
           </DrawerHeader>
-        </div>
+          <div className="w-full">
+            <Button className="">Card</Button>
+          </div>
       </DrawerContent>
     </Drawer>
   );
