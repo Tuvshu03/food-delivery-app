@@ -31,17 +31,16 @@ const Address = () => {
       const res = await axiosInstance.put(
         "/users",
         { address: addressUser },
-        { headers: { Authorization: "Bearer " + JSON.parse(token) } }
+        { headers: { Authorization: "Bearer " + JSON.parse(token)} }
       );
-      console.log(JSON.parse(token || ""));
       console.log(res);
-      toast.success(res.message)
     } catch (err) {
       console.log(err, "error");
     }
   };
   return (
     <AlertDialog>
+      
       <Button
         variant="outline"
         className="bg-white rounded-full text-red-500 max-w-72 py-2 px-4"
@@ -59,7 +58,7 @@ const Address = () => {
               setSaveAddress("");
             }}
           >
-            <X className="z-30 text-black" />
+            <X className="z-30 text-black"/>
           </div>
         ) : (
           <div className="flex items-center  text-black">

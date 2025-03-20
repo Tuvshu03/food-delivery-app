@@ -2,20 +2,28 @@ import { Button } from "@/components/ui/button";
 import { CategoryType, FoodType } from "../page";
 import { Card, CardContent } from "@/components/ui/card";
 import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogFooter,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogFooter,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Minus, Plus } from "lucide-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ToastContainer, toast } from "react-toastify";
+import { DialogClose } from "@radix-ui/react-dialog";
 type CategoryProps = {
   foods: FoodType[];
 } & CategoryType;
 
 export const Category = (props: CategoryProps) => {
+  const [addFood, setAddFood] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenChange = (open: any) => {
+    setIsOpen(open);
+  };
   const { categoryName, _id, foods } = props;
   const filteredFoods = foods.filter(
     (food) => food.categoryName.filter((cur) => cur._id === _id).length !== 0
@@ -32,7 +40,9 @@ export const Category = (props: CategoryProps) => {
   const plusQuantity = () => {
     setQuantity((prev) => prev + 1);
   };
-
+  // const addFoodToCart = () =>{
+  //   setAddFood([...foods])
+  // }
   const notify = () => toast("Food is being added to the cart");
   return (
     <div className="my-3 max-w-7xl mx-auto">
@@ -54,16 +64,17 @@ export const Category = (props: CategoryProps) => {
                         alt="property image"
                         className="overflow-hidden object-cover rounded-md w-96 h-52"
                       />
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
+                      <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+                        <DialogTrigger asChild>
                           <Button
                             variant="outline"
                             className="absolute bottom-3 right-3 bg-white rounded-full text-black"
                           >
                             <Plus />
                           </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent className="sm:max-w-[826px]">
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[826px]">
+                          <DialogTitle>Delivery address</DialogTitle>
                           <div className="flex w-full gap-6">
                             <div className="w-full">
                               <img
@@ -98,30 +109,37 @@ export const Category = (props: CategoryProps) => {
                                       <Plus />
                                     </Button>
                                     <div className="">{quantity}</div>
-                                    <Button
-                                      onClick={minusQuantity}
-                                      disabled={quantity === 1}
-                                      className="rounded-full bg-white text-black border w-10 h-10"
-                                    >
-                                      <Minus />
-                                    </Button>
+                                    <DialogClose asChild>
+                                      <Button
+                                        onClick={minusQuantity}
+                                        disabled={quantity === 1}
+                                        className="rounded-full bg-white text-black border w-10 h-10"
+                                      >
+                                        <Minus />
+                                      </Button>
+                                    </DialogClose>
                                   </div>
                                 </div>
-                                <AlertDialogFooter>
-                                  <Button
-                                    className="w-full"
-                                    type="submit"
-                                    onClick={notify}
-                                  >
-                                    Add to card
-                                  </Button>
-                                  <ToastContainer /
-                                </AlertDialogFooter>
                               </div>
                             </div>
                           </div>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                          <DialogClose asChild>
+                            <Button
+                              className="w-full"
+                              type="submit"
+                              onClick={() => {
+                                notify();
+                                handleOpenChange(isOpen);
+                                // addFoodToCart();
+                                isOpen;
+                              }}
+                            >
+                              Add to card
+                            </Button>
+                            <ToastContainer />
+                          </DialogClose>
+                        </DialogContent>
+                      </Dialog>
                     </div>
                     <div className="flex justify-between text-2xl">
                       <div className="text-red-500">{foods.foodName}</div>

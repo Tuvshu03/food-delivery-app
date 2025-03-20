@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+// import { OrderContextProvider } from "@/utils/OrderContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,12 +25,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
+     {/* <OrderContextProvider> */}
+     <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
-      
       </body>
+     {/* </OrderContextProvider> */}
     </html>
   );
 }

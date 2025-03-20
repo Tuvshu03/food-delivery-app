@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axiosInstance";
 import { Category } from "./_components/category";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
+// import { OrderContext } from "@/utils/OrderContext";
 
 export type CategoryType = {
   categoryName: String;
@@ -27,7 +28,7 @@ export type FoodType = {
 export default function Home() {
   const [categories, setCategory] = useState<CategoryType[]>([]);
   const [foods, setFoods] = useState<FoodType[]>([]);
-
+  // const {addFood:OrderContextProps} = useContext(OrderContext)
   const getCategory = async () => {
     try {
       const categories = await axiosInstance.get("/category");
@@ -49,7 +50,7 @@ export default function Home() {
     getCategory();
     getFoods();
   }, []);
-  
+  console.log(foods, "food")  
   return (
     <div className="bg-neutral-700 flex flex-col">
       <Header/>
