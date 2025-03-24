@@ -8,19 +8,19 @@ import Footer from "./_components/Footer";
 // import { OrderContext } from "@/utils/OrderContext";
 
 export type CategoryType = {
-  categoryName: String;
-  _id: String;
+  categoryName: string;
+  _id: string;
 };
 export type FoodType = {
-  foodName: String;
-  image: String;
-  ingredients: String;
-  price: String;
-  _id: String;
+  foodName: string;
+  image: string;
+  ingredients: string;
+  price: string;
+  _id: string;
   categoryName: [
     {
-      _id: String;
-      categoryName: String;
+      _id: string;
+      categoryName: string;
     }
   ];
 };
@@ -50,15 +50,17 @@ export default function Home() {
     getCategory();
     getFoods();
   }, []);
-  console.log(foods, "food")  
   return (
     <div className="bg-neutral-700 flex flex-col">
-      <Header/>
-      <img src="title-image.png" className="w-full h-[600px] overflow-hidden object-cover" />
-      {categories.map((category) => (
-        <Category {...category} foods={foods} />
+      <Header />
+      <img
+        src="title-image.png"
+        className="w-full h-[600px] overflow-hidden object-cover"
+      />
+      {categories.map((category, index) => (
+        <Category {...category} foods={foods} key={index} />
       ))}
-      <Footer/>
+      <Footer />
     </div>
   );
 }
