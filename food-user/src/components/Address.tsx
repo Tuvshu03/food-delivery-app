@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "../../../components/ui/button";
+import { Button } from "./ui/button";
 import { ChevronRight, MapPin, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { axiosInstance } from "@/lib/axiosInstance";
@@ -25,13 +25,11 @@ const Address = () => {
   const handleClickSaveAdress = async () => {
     const token = localStorage.getItem("authorization");
 
-    console.log("helloo");
-
     try {
       const res = await axiosInstance.put(
         "/users",
         { address: addressUser },
-        { headers: { Authorization: "Bearer " + JSON.parse(token)} }
+        { headers: { Authorization: "Bearer " + JSON.parse(token) } }
       );
       console.log(res);
     } catch (err) {
@@ -40,7 +38,6 @@ const Address = () => {
   };
   return (
     <AlertDialog>
-      
       <Button
         variant="outline"
         className="bg-white rounded-full text-red-500 max-w-72 py-2 px-4"
@@ -58,7 +55,7 @@ const Address = () => {
               setSaveAddress("");
             }}
           >
-            <X className="z-30 text-black"/>
+            <X className="z-30 text-black" />
           </div>
         ) : (
           <div className="flex items-center  text-black">

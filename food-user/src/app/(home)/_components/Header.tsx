@@ -4,9 +4,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { User } from "lucide-react";
-import { DrawerDemo } from "@/app/(home)/_components/Deliver";
-import { LookupAddressEntry } from "axios";
-import Address from "@/app/(home)/_components/Address";
+import { Deliver } from "@/components/Deliver";
+import Address from "@/components/Address";
 const Header = () => {
   return (
     <div className="inset-0 z-30 bg-black h-16">
@@ -24,7 +23,7 @@ const Header = () => {
         </div>
         <div className="flex gap-2">
           <Address />
-          <DrawerDemo />
+          <Deliver />
           <User className="text-black bg-red-500 align-text-bottom rounded-full w-9 h-9 text-center py-2 px-2" />
           {/* <Button onClick={()=>{push('/sign-up')}} className="">Sign up</Button>
           <Button onClick={()=>{push('/login')}} className="bg-red-500">Log in</Button> */}

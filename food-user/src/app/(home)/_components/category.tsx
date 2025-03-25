@@ -25,7 +25,7 @@ export const Category = (props: CategoryProps) => {
           {filteredFoods.length > 0 &&
             filteredFoods.map((food, index) => {
               return (
-                <Card className="w-[350px" key={index}>
+                <Card className="w-[350px]" key={index}>
                   <CardContent className="rounded-lg">
                     <div className="w-full relative">
                       <img
