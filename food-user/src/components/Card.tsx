@@ -1,82 +1,125 @@
 "use client";
 
-import { FoodType } from "@/app/(home)/page";
 import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Quantity } from "@/lib/Quantity";
-import { Minus, Plus } from "lucide-react";
-import { useState } from "react";
-
-type CardProps = {
-  food: object;
-  quantity: number;
-};
+import { Quantity } from "@/components/Quantity";
+import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { FoodType } from "./Types";
+import { axiosInstance } from "@/lib/axiosInstance";
 
 export function MyCard() {
-  const [cart, setCart] = useState<CardProps>(() => {
+  const [cart, setCart] = useState(() => {
     return JSON.parse(localStorage.getItem("cart") || "[]");
   });
-console.log(cart)
+  // console.log(cart, "cart");
+  const [foods, setFoods] = useState<FoodType[]>([]);
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  const getFoods = async () => {
+    try {
+      const food = await axiosInstance.get("/product");
+      setFoods(food.data.Product);
+    } catch (err) {
+      console.log("error");
+    }
+  };
+  useEffect(() => {
+    getFoods();
+  }, []);
+
+  useEffect(() => {
+
+    const calculatedTotal = cart.reduce((totalPrice:any, cartItem:any) => {
+      const food = foods.find((cur) => cur._id === cartItem.foodId);
+      if (food) {
+        totalPrice = totalPrice + cartItem.quantity * Number(food.price);
+      }
+      return totalPrice;
+    }, 0);
+
+    setTotalPrice(calculatedTotal);
+  }, [cart, foods]); 
+
+  const deleteFood = (foodId: string) => {
+    const updatedCart = cart.filter((cart: any) => cart.foodId !== foodId )
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+  };
+
+  const handleTotalPrice = (quantity:number, price:number) =>{
+    setTotalPrice(...[quantity*price])
+
+
+  }
+
   return (
     <div className="flex flex-col gap-10">
       <Card>
         <CardContent className="rounded-lg">
-          {cart.length > 0 &&
-            cart.map((food, index) => {
+          {foods.length > 0 &&
+            Object.values(cart).map((cartItem) => {
+              const { foodId, quantity } = cartItem as {
+                foodId: string;
+                quantity: number;
+              };
+              const food = foods.find((cur) => cur._id === foodId)!;
+
               return (
-                <div key={index} className="flex">
+                <div key={foodId} className="flex">
                   <div className="w-2/3">
                     <img
-                      src={`${food.food.image}`}
+                      src={`${food.image}`}
                       alt="property image"
                       className="overflow-hidden object-cover rounded-md w-32 h-32"
                     />
                   </div>
                   <div className="">
-                    <div>
-                      <div className="text-red-500">{food.food.foodName}</div>
-                      <div className="">{food.food.ingredients}</div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      {/* <Quantity quantityOfFood={cart.quantity}/> */}
+                    <div className="flex">
                       <div className="">
-                        {food.quantity * Number(food.price)}$
+                      <div className="text-red-500">{food.foodName}</div>
+                      <div className="">{food.ingredients}</div>
+                      </div>
+                      <Button onClick={()=>deleteFood(foodId)} className="w-10 h-10 rounded-full bg-white text-black border border-red-500"><X/></Button>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <Quantity quantityOfFood={quantity} foodId={food._id}/>
+                      <div className="">
+                        {quantity * Number(food.price)}$
                       </div>
                     </div>
                   </div>
                 </div>
               );
             })}
+            <Button className="w-full text-red-500 rounded-full border border-red-500 bg-white">Add food</Button>
         </CardContent>
       </Card>
       <Card>
         <CardHeader>
           <CardTitle>Payment information</CardTitle>
-          <CardDescription>
-            Deploy your new project in one-click.
-          </CardDescription>
         </CardHeader>
         <CardContent className="w-full">
-          <form>
             <div className="grid w-full items-center gap-4">
               <div className="w-full flex justify-between">
                 Items
-                <p className="">{}</p>
+                <p className="">{totalPrice}</p>
               </div>
               <div className="flex justify-between">
                 Shipping
                 <p className="">0.99$</p>
               </div>
               <hr />
-              <div className="flex justify-between">Total fsdfa</div>
+              <div className="flex justify-between">Total
+                <p className="">{totalPrice+0.99}$</p>
+              </div>
+              <Button className="w-full rounded-full text-black bg-red-500 hover-bg-none">Checkout</Button>
             </div>
-          </form>
         </CardContent>
       </Card>
     </div>

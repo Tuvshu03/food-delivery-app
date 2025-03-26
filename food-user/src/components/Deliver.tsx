@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Minus, Plus, ShoppingCart } from "lucide-react";
+import {ShoppingCart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -15,7 +15,6 @@ import { MyCard } from "./Card";
 import MyOrder from "./Order";
 
 export function Deliver() {
-  const [food, setFoods] = useState([]);
   const [detail, setDetail] = useState(false);
 
   const changeDetail = () => {
@@ -47,7 +46,7 @@ export function Deliver() {
             <Button
               onClick={changeDetail}
               className={`${
-                !detail ? "bg-red-600" : "bg-none"
+                !detail ? "bg-red-600" : "bg-white text-black"
               } w-1/2 rounded-full`}
             >
               Card
@@ -55,7 +54,7 @@ export function Deliver() {
             <Button
               onClick={changeDetail}
               className={`${
-                detail ? "bg-red-600" : "bg-none"
+                detail ? "bg-red-600" : "bg-white text-black"
               } w-1/2 rounded-full`}
             >
               Order

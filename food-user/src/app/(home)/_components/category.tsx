@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { CategoryType, FoodType } from "../page";
 import { Card, CardContent } from "@/components/ui/card";
 import FoodModal from "@/components/FoodModal";
+import { CategoryType, FoodType } from "@/components/Types";
 
 type CategoryProps = {
   foods: FoodType[];

@@ -5,30 +5,11 @@ import { axiosInstance } from "@/lib/axiosInstance";
 import { Category } from "./_components/category";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-// import { OrderContext } from "@/utils/OrderContext";
-
-export type CategoryType = {
-  categoryName: string;
-  _id: string;
-};
-export type FoodType = {
-  foodName: string;
-  image: string;
-  ingredients: string;
-  price: string;
-  _id: string;
-  categoryName: [
-    {
-      _id: string;
-      categoryName: string;
-    }
-  ];
-};
+import { CategoryType, FoodType } from "@/components/Types";
 
 export default function Home() {
   const [categories, setCategory] = useState<CategoryType[]>([]);
   const [foods, setFoods] = useState<FoodType[]>([]);
-  // const {addFood:OrderContextProps} = useContext(OrderContext)
   const getCategory = async () => {
     try {
       const categories = await axiosInstance.get("/category");

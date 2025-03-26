@@ -5,14 +5,14 @@ import {
   DialogContent,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { CategoryType, FoodType } from "@/app/(home)/page";
 import { toast } from "react-toastify";
 import { DialogClose } from "@radix-ui/react-dialog";
 import { Button } from "@/components/ui/button";
 import { Minus, Plus } from "lucide-react";
 import { get } from "http";
+import { FoodType } from "./Types";
 
-const FoodModal = ({ food }: { food: FoodType }) => {
+const FoodModal = ({ food }: { food: FoodType}) => {
   const [quantity, setQuantity] = useState(1);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -30,18 +30,23 @@ const FoodModal = ({ food }: { food: FoodType }) => {
   const addFoodToCart = (foodId: string, quantity: number) => {
     const getCart = JSON.parse(localStorage.getItem("cart") || "[]");
 
+    hasCartSelectedFood(getCart, foodId);
+
     if (getCart) {
-      const CartData = getCart.map((cart:any) => {
-        return cart.foodId === foodId
-          ? {   quantity: cart.quantity + quantity }
-          : cart;
-      });
-      const newCartData = CartData;
-      console.log(newCartData, "sad")
-    //   newCartData.push({foodId, quantity})
-      localStorage.setItem("cart", JSON.stringify(newCartData))
+
+      if (hasCartSelectedFood(getCart, foodId)) {
+        const updatedCart = getCart.map((cart: any) => {
+          return cart.foodId === foodId
+            ? { ...cart, quantity: cart.quantity + quantity }
+            : cart;
+        });
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+      } else {
+        getCart.push({ foodId, quantity });
+        localStorage.setItem("cart", JSON.stringify(getCart));
+      }
     } else {
-      localStorage.setItem("cart", JSON.stringify([{food, quantity}]))
+      localStorage.setItem("cart", JSON.stringify([{ foodId, quantity }]));
     }
   };
   return (
@@ -49,7 +54,7 @@ const FoodModal = ({ food }: { food: FoodType }) => {
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="absolute bottom-3 right-3 bg-white rounded-full text-black"
+          className="absolute bottom-3 right-3 bg-white rounded-full text-black w-10 h-10"
         >
           <Plus />
         </Button>
@@ -104,7 +109,7 @@ const FoodModal = ({ food }: { food: FoodType }) => {
             onClick={() => {
               toast("Food is being added to the cart");
               handleOpenChange(isOpen);
-              addFoodToCart(food, quantity);
+              addFoodToCart(food._id, quantity);
             }}
           >
             Add to card
@@ -115,3 +120,11 @@ const FoodModal = ({ food }: { food: FoodType }) => {
   );
 };
 export default FoodModal;
+
+const hasCartSelectedFood = (cartData: any, foodId: string) => {
+  const res = cartData.find((cart: any) => {
+    return cart.foodId === foodId;
+  });
+
+  return res;
+};
