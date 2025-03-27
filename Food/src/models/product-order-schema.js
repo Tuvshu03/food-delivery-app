@@ -4,7 +4,7 @@ const { Schema, model, models } = mongoose;
 
 const foodOrderItemSchema = Schema(
   {
-    foodName: {
+    foodId: {
       type: Schema.Types.ObjectId,
       ref: "Products",
       default: [],
@@ -13,7 +13,6 @@ const foodOrderItemSchema = Schema(
   },
   { _id: false }
 );
-
 
 const productOrderSchema = Schema(
   {
@@ -25,8 +24,9 @@ const productOrderSchema = Schema(
       enum: ["PENDING", "CANCELED", "DELIEVERED"],
       default: "PENDING",
     },
+    createdAt: {type:Date, default: new Date()},
+    isVerified: Boolean,
   },
-  { timestamp: true }
 );
 export const ProductsOrder =
   models.ProductsOrder || model("ProductsOrder", productOrderSchema);

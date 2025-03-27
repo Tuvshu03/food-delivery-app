@@ -21,6 +21,5 @@ const userSchema = Schema(
     ttl: {type:Date, default: new Date()},
     isVerified: Boolean,
   },
-  { timestamp: true }
 );
 export const Users = models.Users || model("Users", userSchema);

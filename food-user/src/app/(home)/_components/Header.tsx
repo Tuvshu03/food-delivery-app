@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { User } from "lucide-react";
 import { Deliver } from "@/components/Deliver";
 import Address from "@/components/Address";
+import { DropdownUser } from "@/components/UserConnected";
 const Header = () => {
   return (
     <div className="inset-0 z-30 bg-black h-16">
@@ -23,8 +24,8 @@ const Header = () => {
         </div>
         <div className="flex gap-2">
           <Address />
-          <Deliver />
-          <User className="text-black bg-red-500 align-text-bottom rounded-full w-9 h-9 text-center py-2 px-2" />
+          <Deliver/> 
+          <DropdownUser/>
           {/* <Button onClick={()=>{push('/sign-up')}} className="">Sign up</Button>
           <Button onClick={()=>{push('/login')}} className="bg-red-500">Log in</Button> */}
         </div>

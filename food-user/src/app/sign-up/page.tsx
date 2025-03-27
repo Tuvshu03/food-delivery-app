@@ -17,7 +17,6 @@ const page = () => {
 
   const getUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email, password);
 
     try {
       setLoading(true);

@@ -12,7 +12,8 @@ const productSchema = Schema(
       ref: "ProductsCategory",
       default: [],
     },
+    createdAt: {type:Date, default: new Date()},
+    isVerified: Boolean,
   },
-  { timestamp: true }
 );
 export const Products = models.Products || model("Products", productSchema);
