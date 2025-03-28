@@ -1,51 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { axiosInstance } from "@/lib/axiosInstance";
 import axios from "axios";
+import { UserContext } from "@/utils/UserContext";
 
 const MyOrder = () => {
-
-    // const createOrder = (e: React.FormEvent<HTMLFormElement>) =>{
-    //  try {
-    //      const address = await axiosInstance.post("/product", {
-    //        email: email,
-    //        password: password,
-    //      });
-    //      console.log(address.data);
-    //   catch(err){
-    //     console.log("error", err);
-    //     if (axios.isAxiosError(err)) {
-    //       setError(err.response?.data.message);
-    //     }
-    //   }
-    // }
+  const [orders, setOrders] = useState([]);
+  const {userData} = useContext(UserContext)
+  const getOrder = async () => {
+    try {
+      const address = await axiosInstance.get("/product-order", {user:userData._id});
+      setOrders(address.data.ProductOrder)
+      console.log(address.data.ProductOrder);
+    } catch (err) {
+      console.log("error", err);
+    }
+  };
+  useEffect(()=>{
+    getOrder()
+  },[])
   return (
-        <Card>
-          <CardHeader>
-            <CardTitle>Payment information</CardTitle>
-          </CardHeader>
-          <CardContent className="w-full h-[500px]">
-            <div className="grid w-full items-center gap-4">
-              <div className="w-full flex justify-between">
-                Items
-                <p className="">1{}</p>
+    <Card>
+      <CardHeader>
+        <CardTitle>Order History</CardTitle>
+      </CardHeader>
+      <CardContent className="w-full h-[500px]">
+          {orders?.length>0 && orders.map((order)=>{
+            return (
+              <div key={order._id} className="grid w-full items-center gap-4">
+                <div className="text-foreground flex just">{order.totalPrice}{order.status}</div>
+                <div >{order.totalPrice}{}</div>
+                <div >{order.totalPrice}</div>
+                <div >{order.totalPrice}</div>
+                <div >{order.totalPrice}</div>
+
               </div>
-              <div className="flex justify-between">
-                Shipping
-                <p className="">0.99$</p>
-              </div>
-              <hr />
-              <div className="flex justify-between">
-                Total
-                <p className="">1{+0.99}$</p>
-              </div>
-              <form>
-        <Button type="submit"  className="w-full rounded-full text-black bg-red-500 hover-bg-none flex items-end">Checkout</Button>
-      </form>
-            </div>
-          </CardContent>
-        </Card>
+            )
+          })}
+      </CardContent>
+    </Card>
   );
 };
 

@@ -25,7 +25,6 @@ app.use("/users", userRouter);
 app.use("/category", productsCategoryRouter);
 app.use("/product", productRouter);
 app.use("/product-order", productOrderRouter);
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 // import { OrderContextProvider } from "@/utils/OrderContext";
 import { ToastContainer, toast } from "react-toastify";
+import { UserContextProvider } from "@/utils/UserContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
      {/* <OrderContextProvider> */}
+     <UserContextProvider>
      <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -42,6 +44,7 @@ draggable
 pauseOnHover
 theme="light"/>
       </body>
+     </UserContextProvider>
      {/* </OrderContextProvider> */}
     </html>
   );

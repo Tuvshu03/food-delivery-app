@@ -15,9 +15,12 @@ export const login = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Username or password did not match" });
-
+    // if(role===user._id)
+    //   return res
+    //     .status(400)
+    //     .json({ message: "Username or password did not match" });
     var token = jwt.sign({ _id: user._id, role: user.role }, "uneheer nuuts");
-    res.json({ token: token });
+    res.json({ token: token, role: user.role });
   } catch (err) {
     res.status(403).json({ message: "Error occured" });
   }

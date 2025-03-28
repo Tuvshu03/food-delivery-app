@@ -18,8 +18,6 @@ const page = () => {
   let valid = { email: "", password: "" };
   const getUser = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(email, password);
-
     try {
       setLoading(true);
       const address = await axiosInstance.post("/users/login", {
@@ -28,11 +26,16 @@ const page = () => {
       });
     
       if (address.status === 200) {
-        const { token } = address.data;
+        const { token, role } = address.data;
         localStorage.setItem("authorization", JSON.stringify(token));
-        push("/");
+        if(role==="ADMIN"){
+          push("/admin");
+        }
+        else{
+          push("/")
+        }
         console.log(token);
-        console.log(address.data);
+        console.log(address);
       }
     } catch (err) {
       setLoading(false);

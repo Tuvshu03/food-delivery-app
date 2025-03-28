@@ -5,7 +5,7 @@ import { axiosInstance } from "@/lib/axiosInstance";
 import { Category } from "./_components/category";
 import Header from "./_components/Header";
 import Footer from "./_components/Footer";
-import { CategoryType, FoodType } from "@/components/Types";
+// import { CategoryType, FoodType } from "@/components/Types";
 
 export default function Home() {
   const [categories, setCategory] = useState<CategoryType[]>([]);

@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import FoodModal from "@/components/FoodModal";
-import { CategoryType, FoodType } from "@/components/Types";
-import {CldUploadButton} from 'next-cloudinary'
+// import {CldUploadButton} from 'next-cloudinary'
 
 type CategoryProps = {
   foods: FoodType[];
@@ -28,10 +27,10 @@ export const Category = (props: CategoryProps) => {
               return (
                 <Card className="w-[350px]" key={index}>
                   <CardContent className="rounded-lg">
-                  <CldUploadButton uploadPreset="<Upload Preset>" />
+                  {/* <CldUploadButton uploadPreset="<Upload Preset>" /> */}
                     <div className="w-full relative">
                       <img
-                        src={`${food.image}`}
+                        // src={`${food.image}`}
                         alt="property image"
                         className="overflow-hidden object-cover rounded-md w-96 h-52"
                       />

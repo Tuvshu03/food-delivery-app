@@ -28,7 +28,7 @@ export function Deliver() {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button variant="outline" className="rounded-full">
+        <Button variant="outline" className="rounded-full w-10 h-10">
           <ShoppingCart className="" />
         </Button>
       </DrawerTrigger>

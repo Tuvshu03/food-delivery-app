@@ -1,8 +1,9 @@
-export type CategoryType = {
+type CategoryType = {
   categoryName: string;
   _id: string;
 };
-export type FoodType = {
+
+type FoodType = {
   foodName: string;
   image: string;
   ingredients: string;
@@ -15,3 +16,7 @@ export type FoodType = {
     }
   ];
 };
+
+type UserData = {
+    
+}

@@ -3,11 +3,11 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Quantity } from "@/components/Quantity";
-import { X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { FoodType } from "./Types";
+import { UserCheck, X } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import { axiosInstance } from "@/lib/axiosInstance";
 import axios from "axios";
+import { useAuth, UserContext } from "@/utils/UserContext";
 
 export function MyCard() {
   const [cart, setCart] = useState(() => {
@@ -15,24 +15,8 @@ export function MyCard() {
   });
   const [foods, setFoods] = useState<FoodType[]>([]);
   const [totalPrice, setTotalPrice] = useState(0);
-  const [userData, setUserData] = useState([]);
   const [error, setError] = useState("");
-  const token = JSON.parse(localStorage.getItem("authorization") || "");
-
-  const getUserData = async () => {
-    try {
-      const address = await axiosInstance.get("/users", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setUserData(address.data.user);
-      console.log(address.data.user, "user data");
-    } catch (err) {
-      console.log("error", err);
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data.message);
-      }
-    }
-  };
+  const {userData} = useAuth()
 
   const getFoods = async () => {
     try {
@@ -44,7 +28,6 @@ export function MyCard() {
   };
   useEffect(() => {
     getFoods();
-    getUserData();
   }, []);
 
   useEffect(() => {
@@ -90,19 +73,19 @@ export function MyCard() {
     <div className="flex flex-col gap-10">
       <Card>
         <CardContent className="rounded-lg">
-          {foods.length > 0 &&
+          {foods?.length > 0 &&
             Object.values(cart).map((cartItem) => {
               const { foodId, quantity } = cartItem as {
                 foodId: string;
                 quantity: number;
               };
-              const food = foods.find((cur) => cur._id === foodId)!;
+              const food = foods?.find((cur) => cur._id === foodId)!;
 
               return (
                 <div key={foodId} className="flex">
                   <div className="w-2/3">
                     <img
-                      src={`${food.image}`}
+                      src={`${food?.image}`}
                       alt="property image"
                       className="overflow-hidden object-cover rounded-md w-32 h-32"
                     />
@@ -110,8 +93,8 @@ export function MyCard() {
                   <div className="">
                     <div className="flex">
                       <div className="">
-                        <div className="text-red-500">{food.foodName}</div>
-                        <div className="">{food.ingredients}</div>
+                        <div className="text-red-500">{food?.foodName}</div>
+                        <div className="">{food?.ingredients}</div>
                       </div>
                       <Button
                         onClick={() => deleteFood(foodId)}
@@ -122,8 +105,8 @@ export function MyCard() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <Quantity quantityOfFood={quantity} foodId={food._id} />
-                      <div className="">{quantity * Number(food.price)}$</div>
+                      <Quantity quantityOfFood={quantity} foodId={food?._id} />
+                      <div className="">{quantity * Number(food?.price)}$</div>
                     </div>
                   </div>
                 </div>
